@@ -1,4 +1,4 @@
-# Programming for Performance and Analysis
+# CacheLens
 
 This project contains runnable C++ implementations for the performance-analysis topics in the resume bullets:
 
