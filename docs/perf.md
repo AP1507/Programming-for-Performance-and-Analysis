@@ -18,6 +18,16 @@ perf c2c report
 
 In the compact-counter case, expect high HITM traffic because multiple threads update atomics sharing the same cache line. In the padded-counter case, each thread updates a separate line, so HITM traffic and elapsed time should drop.
 
+Local benchmark result on macOS 26.3 arm64:
+
+```text
+./build/false_sharing_bench --threads 8 --iterations 50000000
+median speedup_from_padding across five runs: 11.9x
+observed range: 9.8x to 13.3x
+```
+
+Use Linux `perf c2c` to attach the timing result to cache-to-cache ownership transfers.
+
 If `perf c2c` is unavailable, these alternatives are still useful:
 
 ```bash
@@ -75,3 +85,13 @@ Then vary prefetcher:
 ```
 
 Report the key results as L1 miss rate, L2 miss rate on L1 misses, total memory reads, and useful-prefetch rate.
+
+One reproducible result in this repo:
+
+```bash
+./build/cache_sim --trace data/interleaved_stride.trace --policy lru --protocol inclusive --prefetch none
+./build/cache_sim --trace data/interleaved_stride.trace --policy lru --protocol inclusive --prefetch pc-stride
+./build/cache_sim --trace data/interleaved_stride.trace --policy lru --protocol inclusive --prefetch addr-stride
+```
+
+On the interleaved trace, PC-stride reduced L1 miss rate from 100% to 33.3% and memory reads from 24 to 8. Address-stride issued no prefetches because it observed the combined stream rather than each PC-local stream.

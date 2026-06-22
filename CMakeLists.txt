@@ -21,6 +21,19 @@ add_executable(false_sharing_bench
     src/false_sharing_bench.cpp
 )
 
+add_executable(blocking_queue_test
+    tests/blocking_queue_test.cpp
+)
+
 find_package(Threads REQUIRED)
 target_link_libraries(pc_demo PRIVATE Threads::Threads)
 target_link_libraries(false_sharing_bench PRIVATE Threads::Threads)
+target_link_libraries(blocking_queue_test PRIVATE Threads::Threads)
+
+enable_testing()
+add_test(NAME blocking_queue_test COMMAND blocking_queue_test)
+add_test(
+    NAME cache_sim_golden
+    COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/tests/cache_sim_golden.sh $<TARGET_FILE:cache_sim>
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
