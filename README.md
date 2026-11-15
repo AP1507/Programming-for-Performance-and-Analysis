@@ -8,10 +8,6 @@ This project contains runnable C++ implementations for the performance-analysis 
 - inclusive, exclusive, NINE, and hybrid cache-management protocols
 - PC-based and address-based stride prefetchers
 
-## Agent security evaluation
-
-[`agent_security_eval/`](agent_security_eval/README.md) contains TraceGuard, a self-contained Python harness for measuring policy violations by tool-using LLM agents from deterministic tool traces. It includes 40 attack scenarios with matched benign twins, simulated tools, deterministic grading, utility metrics, confidence intervals, and an OpenAI-compatible adapter.
-
 ## Build
 
 ```bash
